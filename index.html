@@ -2,73 +2,63 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Krumboltz CBI v8.1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Career Beliefs Inventory (CBI)</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<header class="topbar">
+<div>🎓 Krumboltz CBI System v8.1</div>
+
+<div>
+<button onclick="setMode('student')">🧑‍🎓 Student</button>
+<button onclick="setMode('coach')">🧑‍🏫 Coach</button>
+</div>
+</header>
+
 <div class="container">
 
-<h1>Career Beliefs Inventory (CBI)</h1>
-
-<!-- MODE -->
-<div id="modeSelect" class="card">
-
-<h2>Choose Mode</h2>
-
-<button onclick="setMode('student')">Student Mode</button>
-<button onclick="setMode('coach')">Coach Mode</button>
-
-</div>
-
-<!-- QUIZ -->
-<div id="quizCard" class="card" style="display:none;">
-
-<h2 id="questionText"></h2>
-
+<section id="quizCard" class="card hidden">
+<div class="progressBar" id="progressBar"></div>
+<h2 id="qText"></h2>
 <div id="options"></div>
+</section>
 
-<p id="progressText"></p>
+<section id="resultCard" class="card hidden">
 
-<button onclick="prev()">Back</button>
-<button onclick="next()">Next</button>
-
-</div>
-
-<!-- RESULTS -->
-<div id="resultCard" class="card" style="display:none;">
-
-<h2>Results</h2>
+<h2>📊 Career Profile Dashboard</h2>
 
 <p id="profile"></p>
+
+<canvas id="radar" width="420" height="420"></canvas>
+
+<h3>Snapshot Table</h3>
+<table>
+<tr><th>Dimension</th><th>Score</th><th>Meaning</th></tr>
+<tr><td>Indecision</td><td id="selS"></td><td>Decision difficulty</td></tr>
+<tr><td>Control</td><td id="conS"></td><td>Agency</td></tr>
+<tr><td>Risk</td><td id="risS"></td><td>Uncertainty tolerance</td></tr>
+<tr><td>Exploration</td><td id="expS"></td><td>Exposure level</td></tr>
+</table>
+
+<p><b>Confidence:</b> <span id="conf"></span></p>
+<p><b>Signal:</b> <span id="signal"></span></p>
+
+<hr>
+
+<h3>Primary Challenge</h3>
 <p id="primary"></p>
+<p id="meaning"></p>
+<p id="feedback"></p>
 
-<canvas id="radarChart" width="300" height="300"></canvas>
+<button onclick="setMode('coach')">Go Coach Dashboard</button>
 
-<div class="actions">
+</section>
 
-<button onclick="generateAdvice()">Advice</button>
-<button onclick="exportPDF()">PDF</button>
-<button onclick="goToCoach()">Coach Mode</button>
+<section id="coachCard" class="card hidden"></section>
 
-</div>
-
-<div id="adviceBox"></div>
-
-</div>
-
-<!-- COACH -->
-<div id="coachPanel" class="card" style="display:none;"></div>
-
-<!-- MODAL -->
-<div id="modal" class="modal" style="display:none;">
-<div class="modal-content">
-<h3 id="mTitle"></h3>
-<p id="mText"></p>
-<button onclick="closeModal()">Close</button>
-</div>
 </div>
 
 <script src="script.js"></script>
