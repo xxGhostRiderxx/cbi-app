@@ -1,480 +1,59 @@
-/* =========================
-   GLOBAL
-========================= */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
 body{
-    font-family: "Segoe UI", Arial, sans-serif;
-    background:#f4f8fc;
-    color:#1f2a44;
-    line-height:1.6;
-    padding:20px;
+font-family:Arial;
+background:#f5f7fb;
+text-align:center;
 }
 
 .container{
-    max-width:1100px;
-    margin:auto;
+max-width:900px;
+margin:auto;
 }
-
-/* =========================
-   HERO
-========================= */
-
-.hero{
-    text-align:center;
-    margin-bottom:20px;
-}
-
-.hero h1{
-    color:#2f6fed;
-    margin-bottom:10px;
-}
-
-.subtitle{
-    color:#5b677a;
-    max-width:800px;
-    margin:auto;
-}
-
-/* =========================
-   CARD
-========================= */
 
 .card{
-    background:#fff;
-    border-radius:18px;
-    padding:24px;
-    margin-bottom:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+background:white;
+padding:20px;
+margin:20px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* =========================
-   MODE SELECT
-========================= */
-
-.mode-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-    margin-top:20px;
+button{
+margin:5px;
+padding:10px 15px;
+border:none;
+border-radius:8px;
+background:#2f6fed;
+color:white;
+cursor:pointer;
 }
 
-.mode-btn{
-    border:none;
-    padding:25px;
-    border-radius:16px;
-    cursor:pointer;
-    text-align:left;
-    font-size:18px;
-    transition:.25s;
+button:hover{
+opacity:0.8;
 }
 
-.mode-btn span{
-    display:block;
-    margin-top:10px;
-    font-size:14px;
-    font-weight:400;
+#options button{
+display:block;
+width:100%;
+margin:8px 0;
 }
 
-.student-btn{
-    background:#eaf2ff;
-    color:#2f6fed;
+canvas{
+margin-top:20px;
+background:#fff;
 }
-
-.coach-btn{
-    background:#eef7f0;
-    color:#2d7d46;
-}
-
-.mode-btn:hover{
-    transform:translateY(-3px);
-}
-
-/* =========================
-   PROGRESS
-========================= */
-
-.progress-header{
-    margin-bottom:25px;
-}
-
-#progressText{
-    margin-bottom:10px;
-    font-weight:600;
-}
-
-.progress{
-    width:100%;
-    height:10px;
-    background:#dde5f1;
-    border-radius:10px;
-    overflow:hidden;
-}
-
-.progress-bar{
-    width:0%;
-    height:100%;
-    background:#2f6fed;
-    transition:.3s;
-}
-
-/* =========================
-   QUESTION
-========================= */
-
-.question-area{
-    text-align:center;
-}
-
-#questionText{
-    margin-bottom:25px;
-}
-
-.scale-guide{
-    display:flex;
-    justify-content:space-between;
-    color:#667085;
-    font-size:14px;
-    margin-bottom:20px;
-}
-
-.scale-buttons{
-    display:flex;
-    gap:12px;
-    justify-content:center;
-    flex-wrap:wrap;
-}
-
-.scale-btn{
-    width:60px;
-    height:60px;
-    border:none;
-    border-radius:12px;
-    background:#edf3ff;
-    font-size:18px;
-    font-weight:700;
-    cursor:pointer;
-    transition:.25s;
-}
-
-.scale-btn:hover{
-    transform:translateY(-2px);
-}
-
-.scale-btn.selected{
-    background:#2f6fed;
-    color:white;
-}
-
-.selected-feedback{
-    margin-top:18px;
-    min-height:30px;
-    color:#2f6fed;
-    font-weight:600;
-}
-
-/* =========================
-   NAVIGATION
-========================= */
-
-.navigation{
-    display:flex;
-    justify-content:space-between;
-    margin-top:30px;
-}
-
-.navigation button{
-    background:#2f6fed;
-    color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:10px;
-    cursor:pointer;
-}
-
-/* =========================
-   REPORT
-========================= */
-
-.report-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-    margin-top:20px;
-}
-
-.info-box{
-    background:#f8fbff;
-    border-left:4px solid #2f6fed;
-    padding:16px;
-    border-radius:10px;
-    margin-bottom:15px;
-}
-
-.info-box h3{
-    margin-bottom:8px;
-}
-
-.small-note{
-    font-size:13px;
-    color:#667085;
-}
-
-/* =========================
-   RADAR
-========================= */
-
-.radar-section{
-    text-align:center;
-    margin-top:30px;
-}
-
-#radarChart{
-    margin:20px auto;
-    display:block;
-    background:white;
-}
-
-.radarLegend{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-    gap:10px;
-    margin-top:20px;
-    text-align:left;
-}
-
-.radarLegend div{
-    background:#f4f7fc;
-    padding:10px;
-    border-radius:8px;
-}
-
-/* =========================
-   SCORES
-========================= */
-
-.scores-grid{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:15px;
-    margin-top:25px;
-}
-
-.score-card{
-    background:#f8fbff;
-    text-align:center;
-    padding:15px;
-    border-radius:12px;
-}
-
-.score-card span{
-    display:block;
-    color:#667085;
-}
-
-.score-card strong{
-    display:block;
-    margin-top:6px;
-    font-size:20px;
-    color:#2f6fed;
-}
-
-/* =========================
-   REFLECTION
-========================= */
-
-.reflection{
-    margin-top:30px;
-}
-
-.reflection h3{
-    margin-bottom:10px;
-}
-
-textarea{
-    width:100%;
-    min-height:100px;
-    padding:12px;
-    margin-top:12px;
-    border:1px solid #d0d7e2;
-    border-radius:10px;
-    resize:vertical;
-}
-
-/* =========================
-   ACTIONS
-========================= */
-
-.actions{
-    margin-top:20px;
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-}
-
-.actions button{
-    border:none;
-    padding:12px 18px;
-    border-radius:10px;
-    cursor:pointer;
-    background:#2f6fed;
-    color:white;
-}
-
-.advice-box{
-    margin-top:20px;
-    padding:15px;
-    background:#eef6ff;
-    border-left:4px solid #2f6fed;
-    border-radius:10px;
-}
-
-/* =========================
-   COACH DASHBOARD
-========================= */
-
-.coach-section{
-    margin-top:25px;
-}
-
-#coachBars{
-    margin-top:20px;
-}
-
-.bar-item{
-    margin-bottom:18px;
-}
-
-.bar-label{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:5px;
-    font-size:14px;
-}
-
-.bar-track{
-    height:12px;
-    background:#e3e8f2;
-    border-radius:10px;
-    overflow:hidden;
-}
-
-.bar-fill{
-    height:100%;
-    background:#2f6fed;
-    width:0%;
-    transition:.4s;
-}
-
-#coach_insight,
-#coach_happenstance{
-    background:#f8fbff;
-    padding:15px;
-    border-radius:10px;
-}
-
-/* =========================
-   MODAL
-========================= */
 
 .modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:999;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.5);
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 .modal-content{
-    background:white;
-    width:90%;
-    max-width:500px;
-    padding:25px;
-    border-radius:16px;
-    position:relative;
-}
-
-.close{
-    position:absolute;
-    right:15px;
-    top:10px;
-    font-size:28px;
-    cursor:pointer;
-}
-
-#modalTitle{
-    color:#2f6fed;
-    margin-bottom:10px;
-}
-
-#modalScore{
-    font-weight:700;
-    margin-bottom:10px;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:768px){
-
-    .mode-grid{
-        grid-template-columns:1fr;
-    }
-
-    .report-grid{
-        grid-template-columns:1fr;
-    }
-
-    .scores-grid{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .navigation{
-        flex-direction:column;
-        gap:10px;
-    }
-
-    .navigation button{
-        width:100%;
-    }
-
-    .actions{
-        flex-direction:column;
-    }
-
-    .actions button{
-        width:100%;
-    }
-}
-
-/* =========================
-   PRINT / PDF
-========================= */
-
-@media print{
-
-    body{
-        background:white;
-        padding:0;
-    }
-
-    .navigation,
-    .actions,
-    .mode-grid,
-    #modeSelect{
-        display:none !important;
-    }
-
-    .card{
-        box-shadow:none;
-        border:1px solid #ddd;
-    }
+background:white;
+padding:20px;
+border-radius:10px;
 }

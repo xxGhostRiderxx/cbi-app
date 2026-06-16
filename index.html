@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Career Beliefs Inventory (CBI)</title>
-
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -13,308 +11,66 @@
 
 <div class="container">
 
-<header class="hero">
-    <h1>Career Beliefs Inventory (CBI)</h1>
-    <p class="subtitle">
-        A career reflection and adaptability assessment inspired by
-        John D. Krumboltz's career learning theory and Planned Happenstance.
-    </p>
-</header>
+<h1>Career Beliefs Inventory (CBI)</h1>
 
-<!-- MODE SELECTION -->
+<!-- MODE -->
+<div id="modeSelect" class="card">
 
-<section id="modeSelect" class="card">
+<h2>Choose Mode</h2>
 
-    <h2>Choose Your Experience</h2>
-
-    <div class="mode-grid">
-
-        <button class="mode-btn student-btn"
-                onclick="setMode('student')">
-
-            🎓 Student Mode
-
-            <span>
-                Complete the assessment and receive a personalised career profile.
-            </span>
-
-        </button>
-
-        <button class="mode-btn coach-btn"
-                onclick="setMode('coach')">
-
-            🧑‍🏫 Coach Mode
-
-            <span>
-                Review results, coaching insights, and intervention suggestions.
-            </span>
-
-        </button>
-
-    </div>
-
-</section>
-
-<!-- QUIZ -->
-
-<section id="quizCard" class="card" style="display:none;">
-
-    <div class="progress-header">
-
-        <div id="progressText">
-            Question 1 of 20
-        </div>
-
-        <div class="progress">
-            <div id="progressBar" class="progress-bar"></div>
-        </div>
-
-    </div>
-
-    <div class="question-area">
-
-        <h2 id="questionText"></h2>
-
-        <div class="scale-guide">
-
-            <span>1 = Strongly Disagree</span>
-            <span>5 = Strongly Agree</span>
-
-        </div>
-
-        <div id="scaleButtons" class="scale-buttons"></div>
-
-        <div id="selectedFeedback"
-             class="selected-feedback">
-        </div>
-
-    </div>
-
-    <div class="navigation">
-
-        <button onclick="prevQuestion()">
-            ← Previous
-        </button>
-
-        <button onclick="nextQuestion()">
-            Next →
-        </button>
-
-    </div>
-
-</section>
-
-<!-- STUDENT REPORT -->
-
-<section id="resultCard"
-         class="card"
-         style="display:none;">
-
-    <h2>Career Adaptability Profile</h2>
-
-    <div class="report-grid">
-
-        <div>
-
-            <div class="info-box">
-
-                <h3>Profile Type</h3>
-
-                <p id="profileType"></p>
-
-            </div>
-
-            <div class="info-box">
-
-                <h3>Primary Development Area</h3>
-
-                <p id="primaryCategory"></p>
-
-            </div>
-
-        </div>
-
-        <div>
-
-            <div class="info-box">
-
-                <h3>Overall Score</h3>
-
-                <p id="score_overall"></p>
-
-            </div>
-
-            <div class="info-box">
-
-                <h3>Interpretation</h3>
-
-                <p id="score_interpretation"></p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="radar-section">
-
-        <h3>Career Radar</h3>
-
-        <p class="small-note">
-            Click any radar label to view a detailed explanation.
-        </p>
-
-        <canvas
-            id="radarChart"
-            width="350"
-            height="350">
-        </canvas>
-
-        <div class="radarLegend">
-
-            <div><strong>Ada</strong> = Adaptability</div>
-            <div><strong>Exp</strong> = Exploration</div>
-            <div><strong>Con</strong> = Career Control</div>
-            <div><strong>Ris</strong> = Risk Tolerance</div>
-            <div><strong>Sel</strong> = Self-Limiting Beliefs</div>
-
-        </div>
-
-    </div>
-
-    <div class="scores-grid">
-
-        <div class="score-card">
-            <span>Ada</span>
-            <strong id="score_ada"></strong>
-        </div>
-
-        <div class="score-card">
-            <span>Exp</span>
-            <strong id="score_exp"></strong>
-        </div>
-
-        <div class="score-card">
-            <span>Con</span>
-            <strong id="score_con"></strong>
-        </div>
-
-        <div class="score-card">
-            <span>Ris</span>
-            <strong id="score_ris"></strong>
-        </div>
-
-        <div class="score-card">
-            <span>Sel</span>
-            <strong id="score_sel"></strong>
-        </div>
-
-    </div>
-
-    <div class="info-box">
-
-        <h3>Planned Happenstance Reflection</h3>
-
-        <p id="happenstanceInsight"></p>
-
-    </div>
-
-    <div class="reflection">
-
-        <h3>Reflection Questions</h3>
-
-        <textarea
-            id="reflection1"
-            placeholder="Which belief surprised you most?">
-        </textarea>
-
-        <textarea
-            id="reflection2"
-            placeholder="What is one belief you want to challenge this week?">
-        </textarea>
-
-    </div>
-
-    <div class="actions">
-
-        <button onclick="generateAdvice()">
-            Generate Career Advice
-        </button>
-
-        <button onclick="exportPDF()">
-            Export PDF Report
-        </button>
-
-    </div>
-
-    <div id="aiAdvice"
-         class="advice-box">
-    </div>
-
-</section>
-
-<!-- COACH DASHBOARD -->
-
-<section id="coachPanel"
-         class="card"
-         style="display:none;">
-
-    <h2>Coach Dashboard</h2>
-
-    <div class="info-box">
-
-        <div id="dashboard_profile"></div>
-
-    </div>
-
-    <h3>Career Adaptability Dimensions</h3>
-
-    <div id="coachBars"></div>
-
-    <div class="coach-section">
-
-        <h3>Recommended Interventions</h3>
-
-        <div id="coach_insight"></div>
-
-    </div>
-
-    <div class="coach-section">
-
-        <h3>Planned Happenstance Lens</h3>
-
-        <div id="coach_happenstance"></div>
-
-    </div>
-
-</section>
+<button onclick="setMode('student')">Student Mode</button>
+<button onclick="setMode('coach')">Coach Mode</button>
 
 </div>
 
-<!-- RADAR POPUP -->
+<!-- QUIZ -->
+<div id="quizCard" class="card" style="display:none;">
 
-<div id="radarModal"
-     class="modal"
-     style="display:none;">
+<h2 id="questionText"></h2>
 
-    <div class="modal-content">
+<div id="options"></div>
 
-        <span class="close"
-              onclick="closeModal()">
-              ×
-        </span>
+<p id="progressText"></p>
 
-        <h2 id="modalTitle"></h2>
+<button onclick="prev()">Back</button>
+<button onclick="next()">Next</button>
 
-        <p id="modalScore"></p>
+</div>
 
-        <p id="modalText"></p>
+<!-- RESULTS -->
+<div id="resultCard" class="card" style="display:none;">
 
-    </div>
+<h2>Results</h2>
 
+<p id="profile"></p>
+<p id="primary"></p>
+
+<canvas id="radarChart" width="300" height="300"></canvas>
+
+<div class="actions">
+
+<button onclick="generateAdvice()">Advice</button>
+<button onclick="exportPDF()">PDF</button>
+<button onclick="goToCoach()">Coach Mode</button>
+
+</div>
+
+<div id="adviceBox"></div>
+
+</div>
+
+<!-- COACH -->
+<div id="coachPanel" class="card" style="display:none;"></div>
+
+<!-- MODAL -->
+<div id="modal" class="modal" style="display:none;">
+<div class="modal-content">
+<h3 id="mTitle"></h3>
+<p id="mText"></p>
+<button onclick="closeModal()">Close</button>
+</div>
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
