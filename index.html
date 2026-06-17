@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Krumboltz CBI</title>
+<title>Krumboltz Career Beliefs Inventory (CBI)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="style.css">
 
+<!-- PDF LIBRARY -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
@@ -23,7 +24,7 @@
 
 <div class="container">
 
-<!-- ================= LANDING PAGE (RESTORED) ================= -->
+<!-- ================= LANDING PAGE ================= -->
 <section id="landing" class="card">
 
 <h1>Career Beliefs Inventory (CBI)</h1>
@@ -36,8 +37,8 @@ Frequently, individuals hold onto career beliefs that prevent them from achievin
 </p>
 
 <p>
-The Career Beliefs Inventory (CBI) is the ideal tool to use at the beginning of the career counseling process
-to explore clients' assumptions, generalizations, and beliefs about themselves and the world of work.
+The Career Beliefs Inventory (CBI) is the ideal tool at the beginning of the career counseling process
+to explore assumptions, generalizations, and beliefs about the self and world of work.
 </p>
 
 <p>
@@ -53,7 +54,9 @@ It helps uncover hidden values and ideas that keep individuals stuck and unable 
 <!-- ================= QUIZ ================= -->
 <section id="quizCard" class="card hidden">
 <div class="progressBar" id="progressBar"></div>
+
 <h2 id="qText"></h2>
+
 <div id="options"></div>
 </section>
 
@@ -76,6 +79,21 @@ It helps uncover hidden values and ideas that keep individuals stuck and unable 
 <p><b>Signal:</b> <span id="signal"></span></p>
 <p><b>Primary Challenge:</b> <span id="primary"></span></p>
 <p><b>Intervention:</b> <span id="feedback"></span></p>
+
+<hr>
+
+<!-- ================= NEW INSIGHT BLOCK ================= -->
+<h3>🧠 Interpretation Summary</h3>
+<p id="insightText"></p>
+
+<h3>📌 Personalized Career Advice</h3>
+<ul id="adviceList"></ul>
+
+<button onclick="generateAdvice()" class="startBtn">
+🤖 Generate Career Advice
+</button>
+
+<hr>
 
 <button onclick="exportPDF()">📄 Download PDF Report</button>
 

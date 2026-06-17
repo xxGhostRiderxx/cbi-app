@@ -341,3 +341,66 @@ let html=`
 document.getElementById("coachCard").innerHTML=html;
 document.getElementById("coachCard").classList.remove("hidden");
 }
+function generateAdvice(){
+
+let d = window.data;
+
+let insights = "";
+let advice = [];
+
+if(d.sel > 4){
+insights = "You show high career indecision, meaning you may be overthinking decisions instead of testing them in real life.";
+advice = [
+"Break decisions into small experiments (internships, shadowing)",
+"Set a 7-day action rule instead of waiting for certainty",
+"Talk to 2 people in different careers this week"
+];
+}
+
+else if(d.exp < 2.5){
+insights = "Your exploration level is low, meaning you may not have enough exposure to different career options yet.";
+advice = [
+"Explore 3 new career videos or job profiles today",
+"Join one informational interview this week",
+"Try a short online course in a new field"
+];
+}
+
+else if(d.con < 2.5){
+insights = "Your confidence level is low, suggesting self-doubt may be limiting your career actions.";
+advice = [
+"Focus on skill-building in one small area daily",
+"Track small wins instead of perfection",
+"Try beginner-level tasks instead of advanced goals"
+];
+}
+
+else if(d.ris > 4){
+insights = "You may avoid uncertainty, which can limit unexpected opportunities.";
+advice = [
+"Practice low-risk experiments (short trials)",
+"Reframe failure as learning feedback",
+"Try something unfamiliar once this week"
+];
+}
+
+else{
+insights = "Your profile shows balanced career thinking with healthy flexibility.";
+advice = [
+"Continue exploring multiple paths",
+"Build consistency in skill development",
+"Engage in real-world exposure opportunities"
+];
+}
+
+document.getElementById("insightText").innerText = insights;
+
+let list = document.getElementById("adviceList");
+list.innerHTML = "";
+
+advice.forEach(a=>{
+let li = document.createElement("li");
+li.innerText = a;
+list.appendChild(li);
+});
+}
