@@ -64,3 +64,13 @@ margin-top:15px;
 border-radius:12px;
 border:1px solid #eee;
 }
+.startBtn{
+padding:14px 20px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#1d4ed8,#7c3aed);
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin-top:15px;
+}

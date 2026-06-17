@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <title>Krumboltz CBI</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
@@ -20,43 +23,65 @@
 
 <div class="container">
 
+<!-- ================= LANDING PAGE (RESTORED) ================= -->
+<section id="landing" class="card">
+
+<h1>Career Beliefs Inventory (CBI)</h1>
+
+<h3>Author: John D. Krumboltz</h3>
+
+<p>
+Are your clients' assumptions and beliefs blocking their career decisions?
+Frequently, individuals hold onto career beliefs that prevent them from achieving their career goals.
+</p>
+
+<p>
+The Career Beliefs Inventory (CBI) is the ideal tool to use at the beginning of the career counseling process
+to explore clients' assumptions, generalizations, and beliefs about themselves and the world of work.
+</p>
+
+<p>
+It helps uncover hidden values and ideas that keep individuals stuck and unable to take action.
+</p>
+
+<button onclick="startAssessment()" class="startBtn">
+🚀 Start Assessment
+</button>
+
+</section>
+
+<!-- ================= QUIZ ================= -->
 <section id="quizCard" class="card hidden">
 <div class="progressBar" id="progressBar"></div>
 <h2 id="qText"></h2>
 <div id="options"></div>
 </section>
 
+<!-- ================= RESULTS ================= -->
 <section id="resultCard" class="card hidden">
 
 <h2>📊 Career Profile Dashboard</h2>
 
-<p id="profile"></p>
-
-<canvas id="radar" width="420" height="420"></canvas>
+<canvas id="radar" width="400" height="400"></canvas>
 
 <h3>Snapshot Table</h3>
 <table>
-<tr><th>Dimension</th><th>Score</th><th>Meaning</th></tr>
-<tr><td>Indecision</td><td id="selS"></td><td>Decision difficulty</td></tr>
-<tr><td>Control</td><td id="conS"></td><td>Agency</td></tr>
-<tr><td>Risk</td><td id="risS"></td><td>Uncertainty tolerance</td></tr>
-<tr><td>Exploration</td><td id="expS"></td><td>Exposure level</td></tr>
+<tr><td>Indecision</td><td id="selS"></td></tr>
+<tr><td>Exploration</td><td id="expS"></td></tr>
+<tr><td>Confidence</td><td id="conS"></td></tr>
+<tr><td>Risk</td><td id="risS"></td></tr>
+<tr><td>Agency</td><td id="adaS"></td></tr>
 </table>
 
-<p><b>Confidence:</b> <span id="conf"></span></p>
 <p><b>Signal:</b> <span id="signal"></span></p>
+<p><b>Primary Challenge:</b> <span id="primary"></span></p>
+<p><b>Intervention:</b> <span id="feedback"></span></p>
 
-<hr>
-
-<h3>Primary Challenge</h3>
-<p id="primary"></p>
-<p id="meaning"></p>
-<p id="feedback"></p>
-
-<button onclick="setMode('coach')">Go Coach Dashboard</button>
+<button onclick="exportPDF()">📄 Download PDF Report</button>
 
 </section>
 
+<!-- ================= COACH ================= -->
 <section id="coachCard" class="card hidden"></section>
 
 </div>

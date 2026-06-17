@@ -1,3 +1,8 @@
+function startAssessment(){
+document.getElementById("landing").classList.add("hidden");
+document.getElementById("quizCard").classList.remove("hidden");
+start();
+}
 let i=0;
 let ans=new Array(20).fill(null);
 
@@ -29,6 +34,11 @@ const Q=[
 const R=[0,2,4,6,8,12,15,17];
 const D=["ada","exp","con","ris","sel"];
 
+/* ONLY USAGE COUNT (NO STUDENT STORAGE) */
+let CBI_USAGE_COUNT =
+parseInt(localStorage.getItem("cbi_usage_count") || "0");
+
+/* START FIX */
 function setMode(m){
 
 if(m==="coach"){
@@ -55,10 +65,7 @@ document.getElementById("quizCard").classList.remove("hidden");
 render();
 }
 
-/* ===================== */
-/* FIXED LIKERT ENGINE */
-/* ===================== */
-
+/* LIKERT (UNCHANGED STYLE) */
 function render(){
 
 if(i>=Q.length){
@@ -68,7 +75,6 @@ return;
 
 document.getElementById("qText").innerText=Q[i];
 
-/* progress */
 document.getElementById("progressBar").style.width =
 ((i+1)/Q.length)*100+"%";
 
@@ -89,20 +95,9 @@ let b=document.createElement("button");
 
 b.innerHTML=`<div><b>${v}</b> ${labels[v-1]}</div>`;
 
-if(ans[i]===v)b.classList.add("selected");
-
 b.onclick=()=>{
 ans[i]=v;
-
-/* safe auto advance */
-setTimeout(()=>{
-if(i<Q.length-1){
-i++;
-render();
-}else{
-showResults();
-}
-},120);
+setTimeout(()=>{ i++; render(); },120);
 };
 
 box.appendChild(b);
@@ -111,7 +106,7 @@ box.appendChild(b);
 
 /* SCORING */
 function s(x){
-let v=ans[x];
+let v=ans[x]||3;
 if(R.includes(x))v=6-v;
 return v;
 }
@@ -126,66 +121,84 @@ sel:(s(0)+s(6)+s(12)+s(17))/4
 };
 }
 
+/* SAVE ONLY COUNT */
+function saveProfile(){
+CBI_USAGE_COUNT++;
+localStorage.setItem("cbi_usage_count",CBI_USAGE_COUNT);
+}
+
 /* RESULTS */
 function showResults(){
-
-hideAll();
-document.getElementById("resultCard").classList.remove("hidden");
 
 let d=calc();
 window.data=d;
 
-document.getElementById("profile").innerText=
-(d.ada+d.exp+d.con+d.ris+d.sel)/5>=4
-?"Confident Explorer"
-:"Balanced / Developing Profile";
+saveProfile();
+
+document.getElementById("resultCard").classList.remove("hidden");
+document.getElementById("quizCard").classList.add("hidden");
 
 document.getElementById("selS").innerText=d.sel.toFixed(2);
+document.getElementById("expS").innerText=d.exp.toFixed(2);
 document.getElementById("conS").innerText=d.con.toFixed(2);
 document.getElementById("risS").innerText=d.ris.toFixed(2);
-document.getElementById("expS").innerText=d.exp.toFixed(2);
+document.getElementById("adaS").innerText=d.ada.toFixed(2);
 
-document.getElementById("conf").innerText=
-((d.con+d.ada)/2).toFixed(2);
-
-document.getElementById("signal").innerText=
-d.sel>4?"High Indecision":
-d.exp<2.5?"Low Exploration":
-d.ris>4?"High Risk":"Balanced";
-
-let c=challenge(d);
-document.getElementById("primary").innerText=c.name;
-document.getElementById("meaning").innerText=c.meaning;
-document.getElementById("feedback").innerText=c.feedback;
+document.getElementById("signal").innerText=getSignal(d);
+document.getElementById("primary").innerText=getTop(d);
+document.getElementById("feedback").innerText=getIntervention(d);
 
 draw(d);
 }
 
-/* CHALLENGE */
-function challenge(d){
-let arr=[
-{name:"Indecision",val:d.sel,meaning:"Difficulty choosing",feedback:"Run small experiments"},
-{name:"Low Exploration",val:d.exp,meaning:"Limited exposure",feedback:"Explore options"},
-{name:"Low Confidence",val:d.con,meaning:"Self doubt",feedback:"Build skills"},
-{name:"Risk Avoidance",val:d.ris,meaning:"Fear of uncertainty",feedback:"Safe experiments"},
-{name:"Perfectionism",val:d.ada,meaning:"Rigid thinking",feedback:"Flexibility training"}
-];
-arr.sort((a,b)=>b.val-a.val);
-return arr[0];
+/* HELPERS */
+function getSignal(d){
+if(d.sel>4)return "High Indecision";
+if(d.exp<2.5)return "Low Exploration";
+if(d.con<2.5)return "Low Confidence";
+if(d.ris>4)return "High Risk";
+return "Balanced";
 }
 
-/* RADAR */
+function getTop(d){
+let arr=[
+["Indecision",d.sel],
+["Exploration",d.exp],
+["Confidence",d.con],
+["Risk",d.ris],
+["Agency",d.ada]
+];
+arr.sort((a,b)=>b[1]-a[1]);
+return arr[0][0];
+}
+
+function getIntervention(d){
+if(d.sel>4)return "Decision tree + values sorting";
+if(d.con<2.5)return "Mastery experiences";
+if(d.exp<2.5)return "Career sampling plan";
+if(d.ris>4)return "Reframing + exposure tasks";
+return "Balanced development";
+}
+
+/* =========================
+RADAR (5 COLORS VERSION)
+========================= */
 function draw(d){
 
 let c=document.getElementById("radar");
 let ctx=c.getContext("2d");
 
-ctx.clearRect(0,0,420,420);
+ctx.clearRect(0,0,400,400);
 
-let cx=210,cy=210,r=140;
+let cx=200,cy=200,r=120;
 
-for(let i=0;i<5;i++){
-let a=(Math.PI*2*i)/5;
+let keys=["sel","exp","con","ris","ada"];
+let labels=["Indecision","Exploration","Confidence","Risk","Agency"];
+
+let colors=["#ef4444","#f59e0b","#22c55e","#3b82f6","#a855f7"];
+
+for(let j=0;j<5;j++){
+let a=(Math.PI*2*j)/5;
 let x=cx+Math.cos(a)*r;
 let y=cy+Math.sin(a)*r;
 
@@ -195,53 +208,136 @@ ctx.lineTo(x,y);
 ctx.strokeStyle="#ddd";
 ctx.stroke();
 
-ctx.fillText(D[i].toUpperCase(),x,y);
+ctx.fillStyle="#111";
+ctx.fillText(labels[j],x,y);
 }
 
+/* shape */
 ctx.beginPath();
 
-for(let i=0;i<5;i++){
-let a=(Math.PI*2*i)/5;
-let v=d[D[i]];
+for(let j=0;j<5;j++){
+let a=(Math.PI*2*j)/5;
+let v=d[keys[j]];
 let x=cx+Math.cos(a)*(v/5*r);
 let y=cy+Math.sin(a)*(v/5*r);
 
-i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+if(j===0)ctx.moveTo(x,y);
+else ctx.lineTo(x,y);
+
+/* point colors */
+ctx.fillStyle=colors[j];
+ctx.beginPath();
+ctx.arc(x,y,5,0,Math.PI*2);
+ctx.fill();
 }
 
 ctx.closePath();
-ctx.fillStyle="rgba(124,58,237,0.3)";
+ctx.strokeStyle="#111";
+ctx.fillStyle="rgba(79,70,229,0.2)";
 ctx.fill();
 ctx.stroke();
 }
 
-/* COACH */
+/* =========================
+PDF EXPORT (WITH RADAR IMAGE)
+========================= */
+function exportPDF(){
+
+if(!window.data){
+alert("Complete assessment first.");
+return;
+}
+
+const { jsPDF } = window.jspdf;
+let doc=new jsPDF();
+
+let d=window.data;
+
+doc.text("Krumboltz Career Beliefs Inventory",10,10);
+
+doc.text("Indecision: "+d.sel.toFixed(2),10,30);
+doc.text("Exploration: "+d.exp.toFixed(2),10,40);
+doc.text("Confidence: "+d.con.toFixed(2),10,50);
+doc.text("Risk: "+d.ris.toFixed(2),10,60);
+doc.text("Agency: "+d.ada.toFixed(2),10,70);
+
+doc.text("Signal: "+getSignal(d),10,90);
+doc.text("Challenge: "+getTop(d),10,100);
+doc.text("Intervention: "+getIntervention(d),10,110);
+
+/* radar image */
+let canvas=document.getElementById("radar");
+let img=canvas.toDataURL("image/png");
+
+doc.addImage(img,"PNG",30,120,150,150);
+
+doc.save("CBI_Report.pdf");
+}
+
+/* COACH MODE (FULL INSTITUTIONAL REPORT) */
 function coach(){
 
 if(!window.data)return alert("Complete assessment first");
 
-let d=window.data;
+let html=`
+<h2>🧑‍🏫 Coach Intelligence Report</h2>
 
-document.getElementById("coachCard").classList.remove("hidden");
+<hr>
 
-document.getElementById("coachCard").innerHTML=`
-<h2>🧑‍🏫 Coach Dashboard</h2>
-
-<h3>Key Insight</h3>
-<p>${d.sel>4?"High indecision detected":"Stable decision pattern"}</p>
-
-<h3>Action Plan</h3>
+<h3>1. Belief Profile Snapshot</h3>
 <ul>
-<li>1 career experiment this week</li>
-<li>1 reflection task</li>
-<li>1 informational interview</li>
+<li>I must be 100% sure before acting</li>
+<li>Mistakes lead to failure</li>
+<li>Opportunities are limited</li>
 </ul>
 
-<h3>Krumboltz Coaching Questions</h3>
+<h3>2. Belief → Behavior Map</h3>
+<table border="1" width="100%">
+<tr><th>Belief</th><th>Behavior</th><th>Risk</th></tr>
+<tr><td>Need certainty</td><td>Avoids action</td><td>Low exploration</td></tr>
+<tr><td>Fear of failure</td><td>Avoids experiments</td><td>Stagnation</td></tr>
+<tr><td>Low agency</td><td>Passive planning</td><td>Dependence</td></tr>
+<tr><td>Growth mindset</td><td>Active exploration</td><td>Positive</td></tr>
+</table>
+
+<h3>3. Intervention Plan</h3>
+<ul>
+<li>Micro career experiment</li>
+<li>Informational interview</li>
+<li>Reflection journal</li>
+<li>Exposure task</li>
+</ul>
+
+<h3>4. Coaching Questions</h3>
 <ul>
 <li>What evidence supports your belief?</li>
-<li>What small experiment can you run?</li>
-<li>What if failure is part of learning?</li>
+<li>What happens if it's wrong?</li>
+<li>What small experiment can you try?</li>
+<li>When did uncertainty help you grow?</li>
 </ul>
+
+<h3>5. Risk Flags</h3>
+<ul>
+<li>Indecision pattern detected</li>
+<li>Low exploration behavior</li>
+<li>External validation dependence</li>
+</ul>
+
+<h3>6. Coaching Pathway</h3>
+<ol>
+<li>Awareness</li>
+<li>Challenge</li>
+<li>Experiment</li>
+<li>Reflect</li>
+<li>Rebuild belief system</li>
+</ol>
+
+<hr>
+
+<h3>7. Institutional Usage</h3>
+<p>Total Assessments: ${CBI_USAGE_COUNT}</p>
 `;
+
+document.getElementById("coachCard").innerHTML=html;
+document.getElementById("coachCard").classList.remove("hidden");
 }
